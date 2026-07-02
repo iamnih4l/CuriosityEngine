@@ -9,6 +9,16 @@
 
 ---
 
+## ❓ Why Create Curiosity Engine?
+
+The goal of this widget is not to give you "motivational quotes," random Wikipedia facts, or current news. 
+
+Instead, the **Curiosity Engine** was built to **reignite intellectual curiosity**. It is designed for those who want their computer to act as a brilliant scientist, philosopher, and historian. Every morning, opening your laptop exposes you to one profound idea—be it astrophysics, quantum mechanics, philosophy, or complexity science—capable of expanding your understanding of the world and making you say: 
+
+> *"I've never heard of this before... I need to learn more."*
+
+---
+
 ## ✨ Features
 
 - **Daily Curated Topics**: Uses AI to generate obscure, thought-provoking topics (e.g., The Great Filter, Dyson Spheres).
