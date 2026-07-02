@@ -10,6 +10,7 @@ const store = new Store({
   defaults: {
     favorites: [],
     history: [],
+    topicQueue: [],
     streak: {
       consecutiveDays: 0,
       lastActiveDate: null,
@@ -59,6 +60,12 @@ function createWindow() {
   ipcMain.handle('get-setting', (event, key) => store.get(`settings.${key}`));
   ipcMain.handle('save-setting', (event, key, value) => {
     store.set(`settings.${key}`, value);
+    return true;
+  });
+
+  ipcMain.handle('get-queue', () => store.get('topicQueue'));
+  ipcMain.handle('save-queue', (event, queue) => {
+    store.set('topicQueue', queue);
     return true;
   });
 

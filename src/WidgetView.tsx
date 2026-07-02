@@ -31,18 +31,75 @@ const defaultTopic = {
 const WidgetView: React.FC<WidgetViewProps> = ({ onLearnMore, onSettings, currentTopic, setCurrentTopic }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [replenishing, setReplenishing] = useState(false);
+
+  const replenishQueue = async () => {
+    if (replenishing) return;
+    if (!(window as any).electronAPI) return;
+    
+    setReplenishing(true);
+    try {
+      const apiKey = await (window as any).electronAPI.getSetting('apiKey');
+      if (!apiKey) {
+        setReplenishing(false);
+        return;
+      }
+      
+      let queue = await (window as any).electronAPI.getQueue() || [];
+      
+      while (queue.length < 3) {
+        const newTopic = await generateTopic(apiKey);
+        if (newTopic) {
+          queue = await (window as any).electronAPI.getQueue() || [];
+          queue.push(newTopic);
+          await (window as any).electronAPI.setQueue(queue);
+        } else {
+          break;
+        }
+      }
+    } catch (e) {
+      console.error("Replenish error", e);
+    }
+    setReplenishing(false);
+  };
 
   // Initialize topic on first load
   useEffect(() => {
-    if (!currentTopic) {
-      setCurrentTopic(defaultTopic);
-    }
+    const init = async () => {
+      if (!currentTopic) {
+        if ((window as any).electronAPI) {
+          let queue = await (window as any).electronAPI.getQueue() || [];
+          if (queue.length > 0) {
+            const nextTopic = queue.shift();
+            await (window as any).electronAPI.setQueue(queue);
+            setCurrentTopic(nextTopic);
+            replenishQueue();
+            return;
+          }
+        }
+        setCurrentTopic(defaultTopic);
+        replenishQueue();
+      }
+    };
+    init();
   }, []);
 
   const handleGenerate = async () => {
     setLoading(true);
     setError('');
     try {
+      if ((window as any).electronAPI) {
+        let queue = await (window as any).electronAPI.getQueue() || [];
+        if (queue.length > 0) {
+          const nextTopic = queue.shift();
+          await (window as any).electronAPI.setQueue(queue);
+          setCurrentTopic(nextTopic);
+          setLoading(false);
+          replenishQueue();
+          return;
+        }
+      }
+
       let apiKey = '';
       if ((window as any).electronAPI) {
         apiKey = await (window as any).electronAPI.getSetting('apiKey');
@@ -57,6 +114,7 @@ const WidgetView: React.FC<WidgetViewProps> = ({ onLearnMore, onSettings, curren
       const newTopic = await generateTopic(apiKey);
       if (newTopic) {
         setCurrentTopic(newTopic);
+        replenishQueue();
       } else {
         setError('Failed to generate topic.');
       }
