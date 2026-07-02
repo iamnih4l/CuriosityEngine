@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-glass-light: rgba(255, 255, 255, 0.4);
+  --bg-glass-dark: rgba(20, 20, 20, 0.55);
+  --border-light: rgba(255, 255, 255, 0.4);
+  --border-dark: rgba(255, 255, 255, 0.1);
+  --text-light: #1e1e1e;
+  --text-dark: #f5f5f7;
+  --text-muted-light: #666666;
+  --text-muted-dark: #a1a1a6;
+  
+  --accent: #6b46c1;
+  --accent-hover: #805ad5;
+  
+  --radius: 20px;
+  --font-sans: 'Inter', sans-serif;
+  --shadow-light: 0 10px 40px -10px rgba(0,0,0,0.1);
+  --shadow-dark: 0 10px 40px -10px rgba(0,0,0,0.5);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: transparent !important;
+  font-family: var(--font-sans);
+  overflow: hidden;
+  color: var(--text-dark); /* Default to dark theme text */
+}
+
+/* Apply light/dark theme to body */
+body.light-theme {
+  color: var(--text-light);
+}
+body.dark-theme {
+  color: var(--text-dark);
+}
+
+.glass-panel {
+  background: var(--bg-glass-dark);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-dark);
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  margin: 10px; /* Leave space for shadow */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+body.light-theme .glass-panel {
+  background: var(--bg-glass-light);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-light);
+}
+
+.drag-header {
+  -webkit-app-region: drag;
+  height: 40px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 12px;
+}
+
+.drag-header button {
+  -webkit-app-region: no-drag;
+}
+
+/* Typography */
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-base { font-size: 1rem; line-height: 1.5rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+.text-muted {
+  color: var(--text-muted-dark);
+}
+body.light-theme .text-muted {
+  color: var(--text-muted-light);
+}
+
+/* Layout Utilities */
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.mt-4 { margin-top: 1rem; }
+.mt-auto { margin-top: auto; }
+.p-5 { padding: 1.25rem; }
+
+/* Buttons */
+.btn {
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: inherit;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+}
+
+body.light-theme .btn {
+  background: rgba(0,0,0,0.05);
+}
+
+.btn:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-1px);
+}
+body.light-theme .btn:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+body.light-theme .btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Scrollbar */
+.scrollable {
+  overflow-y: auto;
+}
+.scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollable::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.3);
+  border-radius: 3px;
+}
+.scrollable::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 128, 128, 0.5);
+}
