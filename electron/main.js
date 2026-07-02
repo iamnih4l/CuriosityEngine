@@ -40,7 +40,6 @@ function createWindow() {
     y: 50,
     transparent: true,
     frame: false,
-    alwaysOnTop: true,
     resizable: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
